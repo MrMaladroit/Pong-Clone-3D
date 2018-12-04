@@ -5,28 +5,27 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     private int speed = 75;
 
-    private Rigidbody rb;
+    private float dir;
 
-
+    private Rigidbody2D rb;
+    private Vector3 initialPosition;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
+        initialPosition = gameObject.transform.position;
     }
 
     private void Update()
     {
-        if(Input.GetKey(KeyCode.UpArrow))
-        {
-            rb.velocity = new Vector3(0, speed, 0);
-        }
-        else if(Input.GetKey(KeyCode.DownArrow))
-        {
-            rb.velocity = new Vector3(0, -speed, 0);
-        }
-        else
-        {
-            rb.velocity = Vector3.zero;
-        }
+        dir = Input.GetAxisRaw("Vertical");
+
+        rb.velocity = new Vector2(0, dir * speed);
+    }
+
+    public void ResetPosition()
+    {
+        rb.velocity = Vector2.zero;
+        gameObject.transform.position = initialPosition;
     }
 }

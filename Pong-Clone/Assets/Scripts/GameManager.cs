@@ -7,12 +7,14 @@ public class GameManager : MonoBehaviour
 
     public Text playerScoreText;
     public Text opponentScoreText;
+    public static GameManager instance;
 
     private int playerScore = 0;
     private int opponentScore = 0;
-    public static GameManager instance;
+    private PlayerMovementController playerPaddle;
+    private AIMovementController opponentPaddle;
 
-
+       
     private void Awake()
     {
         if (instance == null)
@@ -23,6 +25,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        playerPaddle = FindObjectOfType<PlayerMovementController>();
+        opponentPaddle = FindObjectOfType<AIMovementController>();
     }
 
     public void LoadScene(int sceneIndex)
@@ -37,11 +42,14 @@ public class GameManager : MonoBehaviour
             opponentScore++;
             opponentScoreText.text = opponentScore.ToString();
         }
-        else if (tag == "OpponentWall")
+        else
         {
             playerScore++;
             playerScoreText.text = playerScore.ToString();
         }
+        CheckIfGameOver();
+        playerPaddle.ResetPosition();
+        opponentPaddle.ResetPosition();
     }
 
     public void CheckIfGameOver()
@@ -54,5 +62,10 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(3);
         }
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

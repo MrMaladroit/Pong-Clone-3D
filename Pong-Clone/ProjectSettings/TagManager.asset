@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PlayerWall
   - OpponentWall
+  - Player Paddle
+  - Opponent Paddle
   layers:
   - Default
   - TransparentFX
